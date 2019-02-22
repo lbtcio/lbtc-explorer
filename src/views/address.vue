@@ -1,550 +1,574 @@
 <style lang="less" scoped>
-  @import "../styles/common.css";
-  .address{
-    // width: 1170px;
-		margin: 100px 0 60px 0;
-		font-size: 14px;
-		.container{
-			margin-right: auto;
-      margin-left: auto;
-      padding: 0 15px;
-    }
-    .border-bottom{
-      border-bottom: 1px solid #e4e0e0;
-    }
-    .Summary-content{
-      .ivu-col{
-        height: 40px;
-        line-height: 40px;
-      }
-    }
-    h2{
-      font-size: 32px;
-      margin: 20px 0 15px 0;
-      font-weight:400;
-      span{
-        padding-left: 16px;
-        font-size: 20px;
-      }
-    }
-    //过渡
-    .fade-enter-active, .fade-leave-active {
-      transition: opacity .5s
-    }
-    .fade-enter, .fade-leave-active {
-      opacity: 0
-    }
-    small{
-      font-size: 70%;
-    }
-    .address-border{
-      padding: 10px;
-      background-color: #eceff1;
-      border: 1px solid #cfd8dc;
-      p{
-        line-height: 30px;
-        width: 100%;
-        word-break:break-word;
-      }
-    }
-    .tag-container{
-      overflow: hidden;
-      .tag-block{
-        margin: 10px;
-        float: left;
-      }
-    }
-    .Delegate-content{
-      .ivu-row{
-        border-bottom: 1px solid #e4e0e0;
-      }
-    }  
-    .details{
-      background-color: #eceff1;
-      border-radius: 2px;
-      margin: 20px 0 10px;
-      padding: 15px;
-      border: 1px solid #cfd8dc;
-      .ivu-row{
-        border-bottom: none;
-        // margin: 10px 0;
-      }
-      .ivu-col{
-        height: auto;
-        line-height: 40px;
-      }
-      .panel{
-        background-color: #fff;
-        margin: 5px 0;
-        padding: 0 15px;
-        border: 1px solid #ddd;
-      }
-      .btn{
-        border-radius: .25em;
-        font-weight: 100;
-        color: #fff;
-        font-size: 13px;
-        text-align: center;
-      }
-      .btnArr{
-        .ivu-col{
-          margin: 10px 0 10px 0;
-        }
-      }
-    }
-    .ellipsis{
-      word-break: keep-all;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .details-header{
-      // padding: 8px 0;
-      // text-align: right;
+@import "../styles/common.css";
+.test-address {
+  margin-bottom: 40px;
+  h4 {
+    line-height: 42px;
+  }
+  a {
+    &:hover {
+      text-decoration: underline;
     }
   }
+  .tag-container {
+    overflow: hidden;
+    .tag-block {
+      margin: 2px 0;
+      float: left;
+      .point {
+        margin: 0 1px;
+        font-size: 16px;
+        height: 16px;
+        line-height: 16px;
+        position: relative;
+        bottom: -1px;
+        left: -4px;
+        color: #262a2b;
+      }
+    }
+  }
+  .Icon {
+    display: inline-block;
+  }
+  .info-item {
+    line-height: 42px;
+    text-indent: 1em;
+    margin-bottom: 15px;
+    background-color: #f8f8f9;
+  }
+  .changeStrong {
+    width: 80px;
+    display: inline-block;
+    text-indent: 0;
+  }
+  .not-allowed {
+    cursor: not-allowed;
+  }
+  .txinfo {
+    display: flex;
+    width: 100%;
+    height: 46px;
+    .txtitle {
+      text-indent: 0;
+      padding: 0 1rem;
+    }
+    .txheight {
+      flex-shrink: 0;
+    }
+    .txtime {
+      flex-shrink: 0;
+    }
+  }
+  .txitemloading {
+    margin: 15px 0 0 0;
+    height: 40px;
+    position: relative;
+  }
+  .transactionInfo {
+    margin: 10px 0 20px 0;
+  }
+  .qrcode {
+    // max-width: 140px;
+    max-height: 140px;
+    margin-top: 20px;
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .name {
+    font-size: 13px;
+    margin-left:15px;
+  }
+}
 </style>
 
 <template>
-  <div class="address">
-    <div class="container">
-      <!-- <h2>Address&nbsp;&nbsp;{{msg}}</h2> -->
-      <h2>Address</h2>
-      <div class="address-border">
-        <p><strong>Address: </strong>{{addrinfo.addr}}</p>
-      </div>
-      <div class="Summary-content">
-        <h2>Summary<span></span></h2>
+  <div class="test-address">
+
+    <loader v-if="loading"></loader>
+
+    <div class="container" v-if="!loading">
+
+      <div class="info mb40" >
+        <h2 class="pt25" style="margin-bottom:5px">Common</h2>
         <Row :gutter="20">
-          <Col :xs="24" :sm="24" :md="20" :lg="20" style="height:100%">
-            <Row class="border-bottom">
-              <Col span="12"><strong>Balance:</strong></Col>
-              <Col span="12" style="text-align: right;">{{addrinfo.Balance ? addrinfo.Balance : '0'}}</Col>
-            </Row>
-            <Row class="border-bottom">
-              <Col span="12"><strong>Received:</strong></Col>
-              <Col span="12" style="text-align: right;">{{addrinfo.Received ? addrinfo.Received : '0'}}</Col>
-            </Row>
-            <Row class="border-bottom">
-              <Col span="12"><strong>Sent:</strong></Col>
-              <Col span="12" style="text-align: right;">{{addrinfo.Sent ? addrinfo.Sent : '0'}}</Col>
-            </Row>
-            <Row class="border-bottom">
-              <Col span="12"><strong>Transactions in:</strong></Col>
-              <Col span="12" style="text-align: right;">{{addrinfo['Transactions in'] ? addrinfo['Transactions in'] : '0'}}</Col>
-            </Row>
-            <Row class="border-bottom">
-              <Col span="12"><strong>Transactions out:</strong></Col>
-              <Col span="12" style="text-align: right;">{{addrinfo['Transactions out'] ? addrinfo['Transactions out'] : '0'}}</Col>
-            </Row>
-          </Col>
-          <Col :xs="24" :sm="24" :md="4" :lg="4" style="height:100%;text-align:center">
-            <img :src="'http://qr.liantu.com/api.php?text=' + address" alt="" srcset="" style="max-width:180px">
-            
-          </Col>
-        </Row>
-      </div>
-
-      <div class="Votes-content" v-if="Votes.length > 0">
-        <h2 @click="VotesStatus = !VotesStatus" style="cursor:pointer;"><small v-if="!VotesStatus"><Icon type="plus-round"></Icon></small><small v-if="VotesStatus"><Icon type="minus-round"></Icon></small>Votes<span>{{Votes.length}}</span></h2>
-        <!-- <transition name="fade"> -->
-        <div class="tag-container" v-if="VotesStatus">
-          <router-link v-for="item in Votes" :to="{path:'/addrinfo',query: {addr: item.witness}}" :key="item.id" class="tag-block">{{item.witness}}</router-link>
-        </div>
-        <!-- </transition> -->
-      </div>
-
-      <div class="Voters-content" v-if="Voters.length > 0">
-        <h2 @click="VotersStatus = !VotersStatus" style="cursor:pointer;"><small v-if="!VotersStatus"><Icon type="plus-round"></Icon></small><small v-if="VotersStatus"><Icon type="minus-round"></Icon></small>Voters<span>{{Voters.length}}</span></h2>
-        <!-- <transition name="fade"> -->
-        <div class="tag-container" v-if="VotersStatus">
-          <router-link v-for="item in Voters" :to="{path:'/addrinfo',query: {addr: item}}" :key="item" class="tag-block">{{item}}</router-link>
-        </div>
-        <!-- </transition> -->
-      </div>
-
-      <div class="Transactions-content">
-        <h2>Transactions</h2>
-        <Row class="loading" v-if="loading">
-          Loading Transactions……
-        </Row>
-        <Row class="alert-warning" v-if="noData">
-          <span>There are no transactions involving this address.</span>
-        </Row>
-        <div class="details" v-if="haveData" v-for="item in addrTable" :key="JSON.stringify(item.txinfo)">
-
-            <Row class="details-header">
-              <Col :xs="24" :md="13" class="ellipsis">
-                <router-link :to="{path:'/transinfo',query: {txhash: item.tx}}" :title="item.tx" class="ellipsis">{{item.tx}}</router-link>
-              </Col>
-              <Col :xs="24" :md="11" class="ellipsis" style="text-align: right;">
-                <!-- <Col span="12" class="ellipsis">
-                  <strong>Block : </strong>{{item.block}}
-                </Col> -->
-                <!-- <Col span="8" class="ellipsis">
-                  <strong>Balance : </strong>{{item.balance ? Number(item.balance).toFixed(2) : 0}}
-                </Col> -->
-                <!-- <Col span="12" class="ellipsis" :title="item.time" style="text-align: right;">
-                  <strong>Time : </strong>{{item.time}}
-                </Col> -->
-                {{item.time}}
-              </Col>
+          <Col :xs="24" :sm="24" :md="20" :lg="20" style="height:100%;padding-top:12px;padding-bottom:12px;">
+            <Row>
+              <p class="ellipsis" :title="address"><strong class="changeStrong">Address: </strong><span>{{address}}</span></p>
             </Row>
             <Row>
-              <Col :xs="24" :md="11" style="min-height:40px">
-                <Row v-for="item1 in item.Inputs" :key="item['ScriptSig']" class="panel">
-                  <Col span="18" class="ellipsis">
-                    <span v-if="item1['From address'].length < 15 || item1['From address'] == address" >{{item1['From address']}}</span>
-
-                    <router-link v-if="item1['From address'].length >= 15 && item1['From address'] != address" :to="{path:'/addrinfo',query: {addr: item1['From address']}}" :title="item1['From address']">{{item1['From address']}}</router-link>
-                  </Col>
-                  <Col span="6" class="ellipsis" style="text-align: right;">{{item1['Amount']}}</Col>
-                </Row>
-              </Col>
-              <Col :xs="0" :md="2" style="text-align: center;">
-                <Row style="margin:5px 0">
-                  <div><Icon type="arrow-right-a"></Icon></div>
-                </Row>
-              </Col>
-              <Col :xs="24" :md="0" style="text-align: center;">
-                <Row style="margin:5px 0">
-                  <div><Icon type="arrow-down-a"></Icon></div>
-                </Row>
-              </Col>
-              <Col :xs="24" :md="11" style="min-height:40px">
-                <Row v-for="item2 in item.Outputs" :key="item2['ScriptPubKey']"  class="panel">
-                  <Col span="18" class="ellipsis">
-                    <span v-if="item2['To address'] == address || item2['To address'].length < 15 ">{{item2['To address']}}</span>
-
-                    <router-link v-if="item2['To address'].length >= 15 && item2['To address'] != address" :to="{path:'/addrinfo',query: {addr: item2['To address']}}" :title="item2['To address']">{{item2['To address']}}</router-link>
-                  </Col>
-                  <Col span="6" class="ellipsis" style="text-align: right;">{{item2['Amount']}}</Col>
-                </Row>
-              </Col>
+              <p class="ellipsis" style="margin-top:15px" :title="getaddressbalance.result"><strong class="changeStrong">Balance: </strong><span>{{ getaddressbalance.result ? getaddressbalance.result / 100000000 : 0}}</span></p>
             </Row>
-            <!-- <Row  :gutter="20" class="btnArr">
-              <Col :sm="24" :md="4"><div class="btn" style="background-color: #6c7b84;">Block:{{item.block}}</div></Col>
-              <Col :sm="24" :md="4"><div class="btn" style="background-color: #454c50;">Amount:{{item.amount}}</div></Col>
-              <Col :sm="24" :md="4"><div class="btn" style="background-color: #377096;">Balance:{{item.balance}}</div></Col>
+            <!-- <Row v-if="showName">
+              <p class="ellipsis" style="margin-top:15px" :title="name"><strong class="changeStrong">Name: </strong><span>{{name}}</span></p>
             </Row> -->
-
-        </div>
-        <Row>
-          <!-- <div class="page" @click="nextPage($event)" v-if="Math.ceil(totalpage/20) > 1 && page < Math.ceil(totalpage/20)"> -->
-          <div class="page" @click="previousPage($event)" v-if="page > 1 && haveData">
-            Previous page
-          </div>
-          <div class="page" @click="nextPage($event)" v-if="totalpage > 1 && page < totalpage && haveData">
-            Next page
-          </div>
-          
+            <!-- <Row v-if="showCount">
+              <p class="ellipsis" style="margin-top:15px" :title="name"><strong class="changeStrong">Votes: </strong><span>{{insert_flg(count)}}</span></p>
+            </Row> -->
+          </Col>
+          <Col :xs="24" :sm="24" :md="4" :lg="4" style="height:100%;text-align:center">
+            <qrcode-vue :value="address" size="140" level="H" class="qrcode"></qrcode-vue>
+          </Col>
         </Row>
       </div>
+
+      <div class="node mb40">
+        <h2>Forging </h2>
+
+        <Collapse simple v-model="node.index">
+          <Panel name="1">
+              Votes
+              <div slot="content" class="tag-container">
+                <div class="tag-block" v-for="(item, index) in node.votes.array" v-if="node.votes.array.length">
+                  <span v-if="item.delegate == getaddressbalance.addr">{{item.name ? item.name : item.delegate}}</span>
+                  <router-link v-if="item.delegate != getaddressbalance.addr" :to="{path:'/addrinfo',query: {param: item.delegate}}" :key="item.address">{{item.name ? item.name : item.address}}</router-link>
+                  <span class="point" v-if="index != (node.votes.array.length - 1)">·</span>
+                </div>
+                <div v-if="!node.votes.array.length" style="color:#ed3f14">
+                  {{node.votes.msg}}
+                </div>
+              </div>
+          </Panel>
+          <Panel name="2">
+              Voters<span class="name" v-if="node.name">({{node.name}})</span>
+              <div slot="content" class="tag-container">
+                <div class="tag-block" v-for="(item, index) in node.voters.array" v-if="node.voters.array.length">
+                  <span v-if="item.address == getaddressbalance.addr">{{item.name ? item.name : item.address}}</span>
+                  <router-link  v-if="item.address != getaddressbalance.addr" :to="{path:'/addrinfo',query: {param: item.address}}" :key="item.address">{{item.name ? item.name : item.address}}</router-link>
+                  <span  class="point" v-if="index != (node.voters.array.length - 1)">·</span>
+                </div>
+                <div v-if="!node.voters.array.length" style="color:#ed3f14">
+                  {{node.voters.msg}}
+                </div>
+              </div>
+          </Panel>
+        </Collapse>
+      </div>
+      
+      <div class="committee mb40">
+        <h2>Committee</h2>
+
+        <Collapse simple v-model="committee.index">
+          <Panel name="1">
+              Votes
+              <div slot="content" class="tag-container">
+                <div class="tag-block" v-for="(item, index) in committee.votes.array" v-if="committee.votes.array.length && index < 30">
+                  <span v-if="item.address == getaddressbalance.addr">{{item.name ? item.name : item.delegate}}</span>
+                  <router-link v-if="item.address != getaddressbalance.addr" :to="{path:'/addrinfo',query: {param: item.address}}" :key="item.address">{{item.name ? item.name : item.address}}</router-link>
+                  <span class="point" v-if="index != (committee.votes.array.length - 1)">·</span>
+                </div>
+                <div v-if="!committee.votes.array.length" style="color:#ed3f14">
+                  {{committee.votes.msg}}
+                </div>
+              </div>
+          </Panel>
+          <Panel name="2">
+              Voters<span class="name" v-if="committee.name && committee.name != address">({{committee.name}})</span>
+              <div slot="content" class="tag-container">
+                <div class="tag-block" v-for="(item, index) in committee.voters.array" v-if="committee.voters.array.length && index < 30">
+                  <span v-if="item.address == getaddressbalance.addr">{{item.name ? item.name : item.address}}</span>
+                  <router-link  v-if="item.address != getaddressbalance.addr" :to="{path:'/addrinfo',query: {param: item.address}}" :key="item.address">{{item.name ? item.name : item.address}}</router-link>
+                  <span  class="point" v-if="index != (committee.voters.array.length - 1)">·</span>
+                </div>
+                <div v-if="!committee.voters.array.length" style="color:#ed3f14">
+                  {{committee.voters.msg}}
+                </div>
+              </div>
+          </Panel>
+        </Collapse>
+      </div>
+
+      <div class="committee mb40">
+        <h2>Proposals</h2>
+
+        <Collapse simple v-model="bills.index">
+          <Panel name="1">
+              Votes
+              <div slot="content" class="tag-container">
+                <div class="tag-block" v-for="(item, index) in bills.array" v-if="bills.array.length">
+                  <router-link :to="{path:'/billinfo',query: {id: item.id}}" :key="item.id">{{item.id}}</router-link>
+                  <span class="point" v-if="index != (bills.array.length - 1)">·</span>
+                </div>
+                <div v-if="!bills.array.length" style="color:#ed3f14">
+                  {{bills.msg}}
+                </div>
+              </div>
+          </Panel>
+          <Panel name="2">
+              Submit
+              <div slot="content" class="tag-container">
+                <div class="tag-block" v-for="(item, index) in sBills.array" v-if="sBills.array.length">
+                  <router-link :to="{path:'/billinfo',query: {id: item.billid}}" :key="item.billid">{{item.billid}}</router-link>
+                  <span class="point" v-if="index != (sBills.array.length - 1)">·</span>
+                </div>
+                <div v-if="!sBills.array.length" style="color:#ed3f14">
+                  {{sBills.msg}}
+                </div>
+              </div>
+          </Panel>
+        </Collapse>
+      </div>
+
+      <div class="transactions mb10" id="transactions">
+        <h2 class="">Transactions</h2>
+
+        <Row class="notice txloading" v-if="txloading">
+          <Col>Loading Transactions …</Col>
+        </Row>
+        <Row class="notice txNodata" style="color:#ed3f14" v-if="txNodata">
+          <Col>{{txerrormsg}}</Col>
+        </Row>
+        <Row v-if="havetx">
+          <div class="table-container">
+            <table class="myTable" border="0" cellpadding="10" cellspacing="0" width="100%">
+              <tbody>
+                <tr v-for="(item, index) in txs" :key="item.txid">
+                  <td style="text-align: left">
+                    <router-link :to="{path:'/transinfo',query: {param: item.txid, byAddr: address}}"  class="ellipsis">{{item.txid}}</router-link>          									
+                  </td>
+                  <td style="text-align: left">
+                    <router-link :to="{path:'/blockinfo',query: {param: item.height}}"  class="ellipsis">{{item.height}}</router-link>          									
+                  </td>
+                  <td style="min-width:200px;">{{item.time | dataFrm}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </Row>
         
+      </div>
+
     </div>
   </div>
 </template>
 
 <script>
-  import config from "../config/config";
+import config from "../config/config";
+import Loader from "./loader.vue";
+import moment from "moment";
+import QrcodeVue from "qrcode.vue";
 
-  export default {
-    name: "address",
-    components: {},
-    data () {
-      return {
-        address: '',
-        VotesStatus: false,
-        VotersStatus: false,
-        loading: true,
-        noData: false,
-        haveData: false,
-        // errorMsg: '',
-        // msg: '',
-        previousFullPath: '',
-        // addrinfo: '',
-        // addrTable: '',
-        page: 1,
-        // totalpage: '',
-        // transTable: [],
-        Delegate:'',
-        Votes:[],
-        Voters:[],
-      }
-    },
-    computed: {
-      addrinfo() {
-        var result = this.$store.state.address.addrinfo;
-        return result;
-      },
-      addrTable() {
-        var result = this.$store.state.address.addrTable;
-        return result;
-      },
-      totalpage() {
-        var result = this.$store.state.address.totalpage;
-        return result;
-      },
-    },
-    created () {
-      
-      
-
-    },
-    mounted () {
-
-      this.address = this.$route.query.addr;
-
-      // console.log(this.$route)
-
-      if (this.$route.query.from ) {
-
-        // console.log('address search')
-
-        var _this = this;
-        // this.msg = '';
-        // this.errorMsg = '';
-        this.loading = false;
-        this.noData = false;
-        this.haveData = true;
-        if (this.addrinfo.addr) {
-
-          // console.log('8888')
-          // console.log(this.addrinfo.addr);
-
-          $.getJSON(config.api.dev + 'getvotersbywitness', { 'param': this.address }, function(data1,status1) {
-            if (data1.error) {
-              return
-            }else {
-              if (data1.result.length > 0) {
-                _this.Voters = data1.result
-              }
-            }
-          });
-          $.getJSON(config.api.dev + 'getvotebyaddress', { 'param': this.address }, function(data2,status2) {
-            if (data2.error) {
-              return
-            }else {
-              if (data2.result.length > 0) {
-                _this.Votes = data2.result
-              }
-            }
-          });
-        }else{
-
-          // console.log('9999')
-          
-          this.getTransinfo('search3', { 'param': this.address }, { 'param': this.address });
-        }
-
-      }else if (this.$route.query.fromdm) {
-
-        // console.log('from delegate-monitor');
-
-        this.getTransinfo('search3', { 'param': this.address }, { 'param': this.address });
-
-      }else {
-
-        // console.log('adderss info')
-
-        this.getTransinfo('addrinfo2', { 'addr': this.address }, { 'param': this.address });
-
-      }
-      
-    },
-    methods: {
-
-      getTransinfo(type, getData, argu) {
-        
-        // this.$Loading.start();
-        var _this = this;
-
-        $.getJSON(config.api.dev + type, getData ,function(data,status){
-
-          if (data.error) {
-            _this.$store.commit('errorMessage', { status: true , msg: data.msg});
-            setTimeout(() =>_this.$store.commit('errorMessage', { status: false , msg: ''}),3000)
-
-            _this.loading = false;
-            _this.noData = true;
-            _this.haveData = false;
-          }else{
-            // _this.msg = '';
-            // _this.errorMsg = '';
-            _this.loading = false;
-            _this.noData = false;
-            _this.haveData = true;
-
-            _this.$store.commit('getaddressData', data);
-
-            // _this.totalpage = data.totalpage;
-            // _this.addrinfo = data.addrinfo;
-            // _this.transTable = data.addrTable;
-
-            //console.log(window.Math.ceil(_this.totalpage/20));
-            // _this.addrTable = data.addrTable;
-
-            // console.log(data);
-
-            // var result = [];
-						// for(let i = 0 ,len = data.addrTable.length ;i < len;i +=20){
-						// 	result.push( data.addrTable.slice(i, i+20) );
-						// };
-						// _this.transTable = result;
-
-            // console.log(_this.addrinfo);
-            // console.log(_this.addrTable);
-            // console.log(_this.transTable);
-          }
-
-        });
-
-        // $.getJSON(config.api.dev + 'getvotersbywitness', { 'param': getData}, function(data1,status1) {
-        $.getJSON(config.api.dev + 'getvotersbywitness', argu, function(data1,status1) {
-
-          if (data1.error) {
-            // _this.$Message.error(data1.msg);
-            // console.log(data1.msg);
-            return
-          }else {
-            if (data1.result.length > 0) {
-              _this.Voters = data1.result
-            }
-          }
-        });
-
-        // $.getJSON(config.api.dev + 'getvotebyaddress', { 'param': getData}, function(data2,status2) {
-        $.getJSON(config.api.dev + 'getvotebyaddress', argu, function(data2,status2) {
-
-          if (data2.error) {
-            // _this.$Message.error(data2.msg);
-            // console.log(data2.msg);
-            return
-          }else {
-            if (data2.result.length > 0) {
-              _this.Votes = data2.result
-            }
-          }
-        });
-
-      },
-
-      nextPage() {
-				// console.log('下一页');
-        if ( this.totalpage > 1 && this.page < this.totalpage ) {
-          // this.$Loading.start();
-          window.scrollTo(0, 60);
-          this.page = this.page + 1;
-          var _this = this;
-          $.getJSON(config.api.dev + 'addrinfo2', { 'addr': this.address, 'page': _this.page} ,function(data,status){
-            
-            _this.loading = true;
-            _this.noData = false;
-            _this.haveData = false;
-
-            if (data.error) {
-              _this.loading = false;
-              _this.noData = true;
-              _this.haveData = false;
-              _this.$store.commit('errorMessage', { status: true , msg: data.msg});
-              setTimeout(() =>_$store.commit('errorMessage', { status: false , msg: ''}),3000)
-              this.page = this.page - 1;
-            }else{
-              _this.loading = false;
-              _this.noData = false;
-              _this.haveData = true;
-              // _this.transTable = data.addrTable;
-              _this.$store.commit('getaddressData', data);
-            }
-
-          })
-        }else{
-          return
-        }
-        
-      },
-      
-      previousPage() {
-        // console.log('上一页')
-        if (this.page > 1) {
-          // this.transTable = [];
-          window.scrollTo(0, 60);
-          this.page = this.page - 1;
-          var _this = this;
-          $.getJSON(config.api.dev + 'addrinfo2', { 'addr': this.address, 'page': _this.page} ,function(data,status){
-            
-            _this.loading = true;
-            _this.noData = false;
-            _this.haveData = false;
-
-            if (data.error) {
-              _this.loading = false;
-              _this.noData = true;
-              _this.haveData = false;
-              _this.$store.commit('errorMessage', { status: true , msg: data.msg});
-              setTimeout(() =>_$store.commit('errorMessage', { status: false , msg: ''}),3000)
-              this.page = this.page + 1;
-            }else{
-              _this.loading = false;
-              _this.noData = false;
-              _this.haveData = true;
-              // _this.transTable = data.addrTable;
-              _this.$store.commit('getaddressData', data);
-
-            }
-
-          })
-        }else {
-          return;
+export default {
+  name: "Address",
+  components: {
+    Loader,
+    QrcodeVue
+  },
+  data() {
+    return {
+      address: "",
+      // tx
+      page: 1,
+      pagecount: "",
+      txs: [],
+      txloading: true,
+      txNodata: false,
+      txerrormsg: "",
+      havetx: false,
+      nextpagestatus: false,
+      previouspagestatus: false,
+      // vote
+      node: {
+        name: '',
+        index: '0',
+        votes: {
+          array: [],
+          msg: ''
+        },
+        voters: {
+          array: [],
+          msg: ''
         }
       },
-
-    },
-    activated() {
-      // console.log('aaaa')
-    },
-    deactivated() {
-      // console.log('bbbb')
-    },
-    watch: {
-      '$route' (to, from) {
-
-        // console.log(to)
-        // console.log(from)
-        // console.log('addr router')
-
-        var _this = this;
-        this.address = this.$route.query.addr;
-
-        if (this.previousFullPath != from.fullPath && this.$route.query.from && this.addrinfo.addr == to.query.addr ) {
-          // console.log('watch search addr')
-          $.getJSON(config.api.dev + 'getvotersbywitness', { 'param': this.address }, function(data1,status1) {
-            if (data1.error) {
-              return
-            }else {
-              if (data1.result.length > 0) {
-                _this.Voters = data1.result
-              }
-            }
-          });
-          $.getJSON(config.api.dev + 'getvotebyaddress', { 'param': this.address }, function(data2,status2) {
-            if (data2.error) {
-              return
-            }else {
-              if (data2.result.length > 0) {
-                _this.Votes = data2.result
-              }
-            }
-          });
+      // committee
+      committee: {
+        name: '',
+        index: '0',
+        votes: {
+          array: [],
+          msg: ''
+        },
+        voters: {
+          array: [],
+          msg: ''
         }
-        this.previousFullPath = from.fullPath;
+      },
+      // bills
+      bills: {
+        index: '0',
+        array: [],
+        msg: ''
+      },
+      // set bills
+      sBills: {
+        index: '0',
+        array: [],
+        msg: ''
+      },
 
-        if (this.addrinfo.addr && from.meta.title == to.meta.title && this.addrinfo.addr != to.query.addr) {
-          this.getTransinfo('addrinfo2', { 'addr': to.query.addr }, { 'param': to.query.addr });
-          // console.log('houtui');
-        }
-
+      // router
+      previousFullPath: "",
+    };
+  },
+  computed: {
+    loading() {
+      return this.$store.state.address1.loading;
+    },
+    getaddressbalance() {
+      return this.$store.state.address1.getaddressbalance;
+    }
+  },
+  filters: {
+    dataFrm: function(el) {
+      return moment(el * 1000).format("YYYY-MM-DD HH:mm:ss");
+    },
+    keyFrm: function(el) {
+      if (el.indexOf("+") >= 0) {
+        return el.slice(1);
+      } else {
+        return el;
       }
     }
+  },
+  created() {
+    this.address = this.$route.query.param;
+    if (this.$route.query.from) {
+      var _this = this;
+      if (this.getaddressbalance.result) {
+        
+        this.node.index = '0';
+        this.committee.index = '0';
+        this.bills.index = '0';
+        this.sBills.index = '0';
+
+        this.getDelegatesAndTxs({ param: _this.address });
+        this.getCommitteeAndBills(_this.address);
+      } else {
+        this.getInfo("search3", { param: this.address });
+      }
+    } else if (this.$route.query.fromdm) {
+      this.getInfo("getaddressbalance", { param: this.address });
+    } else {
+      this.getInfo("getaddressbalance", { param: this.address });
+    }
+  },
+  mounted() {},
+  methods: {
+
+    insert_flg(num) {
+      var num = (num || 0).toString(),
+        result = "";
+      while (num.length > 8) {
+        result = "," + num.slice(-8) + result;
+        num = num.slice(0, num.length - 8);
+      }
+      if (num) {
+        result = num + result;
+      }
+      return result;
+    },
+
+    getInfo(type, param) {
+      var _this = this;
+      this.address = this.$route.query.param;
+
+      $.getJSON(config.api.dev + type, param, function(data, status) {
+        if (data.error) {
+          _this.$store.commit("errorMessage", { status: true, msg: data.msg });
+          setTimeout(
+            () =>
+              _this.$store.commit("errorMessage", { status: false, msg: "" }),
+            3000
+          );
+          _this.$router.push({ path: "/" });
+        } else {
+          _this.$store.commit("getaddress1data", data);
+        }
+      });
+
+      this.node.index = '0';
+      this.committee.index = '0';
+      this.bills.index = '0';
+      this.sBills.index = '0';
+
+      this.getDelegatesAndTxs(param);
+      this.getCommitteeAndBills(param.param); 
+    },
+
+    getDelegatesAndTxs(param) {
+      //param address
+      this.node.name = ''
+      var _this = this;
+      $.getJSON(config.api.dev + "getlistdelegates", function(data, status) {
+        for (let index = 0; index < data.length; index++) {
+          if (_this.address == data[index].address) {
+            _this.node.name = data[index].name;
+            break;
+          }
+        }
+        $.getJSON(config.api.dev + "getvotebyaddress", param, function(
+          data1,
+          status1
+        ) {
+          if (data1.error) {
+            _this.node.votes.array = [];
+            _this.node.votes.msg = 'No data';
+          } else {
+            if (data1.result.length > 0) {
+              _this.node.votes.array = [];
+              _this.node.votes.array = data1.result;
+              _this.node.votes.msg = '';
+            } else {
+              _this.node.votes.array = [];
+              _this.node.votes.msg = 'No data';
+            }
+          }
+        });
+        $.getJSON(config.api.dev + "getvotersbywitness", param, function(
+          data2,
+          status2
+        ) {
+          if (data2.error) {
+            _this.node.voters.array = [];
+            _this.node.voters.msg = 'No data';
+          } else {
+            if (data2.result.length > 0) {
+              _this.node.voters.array = [];
+              _this.node.voters.msg = 'No data';
+              var arr = [];
+              data2.result.forEach((item, index) => {
+                var obj = { address: "", name: "" };
+                obj.address = item;
+                for (let index = 0; index < data.length; index++) {
+                  if (item == data[index].address) {
+                    obj.name = data[index].name;
+                    break;
+                  }
+                }
+                arr.push(obj);
+              });
+              _this.node.voters.array = arr;
+              _this.node.voters.msg = '';
+            } else {
+              _this.node.voters.array = [];
+              _this.node.voters.msg = 'No data';
+            }
+          }
+        });
+      });
+      $.getJSON(config.api.dev + "v2/gettxbyaddr", param, function(data, status) {
+        if (data.error) {
+          _this.txs = [];
+          _this.txerrormsg = data.msg;
+          _this.txloading = false;
+          _this.txNodata = true;
+          _this.havetx = false;
+        } else {
+          _this.txs = data.msg;
+          _this.txloading = false;
+          _this.txNodata = false;
+          _this.havetx = true;
+          data.msg.pagecount
+            ? (_this.pagecount = data.msg.pagecount)
+            : (_this.pagecount = 0);
+        }
+      });
+    },
+
+    getCommitteeAndBills(addr) {
+      // param address
+      this.committee.name = '';
+      var _this = this;
+      $.getJSON(config.api.dev + 'v2/getlistcommittees', function(data, status) {
+        for (let m = 0; m < data.msg.length; m++) {
+          if (addr == data.msg[m].address) {
+            _this.committee.name = data.msg[m].name;
+            break;
+          }
+        }
+        $.getJSON(config.api.dev + 'v2/getlistvotedcommittee', {param: addr}, function(data1, status1) {
+          if (data1.error) {
+            _this.committee.votes.array = [];
+            _this.committee.votes.msg = 'No data';
+          } else {
+            _this.committee.votes.array = data1.msg;
+            _this.committee.votes.msg = '';
+          }
+        });
+        $.getJSON(config.api.dev + 'v2/voterbillsbyaddr', {param: addr}, function(data3, status3) {
+          if (data3.error) {
+            _this.bills.array = [];
+            _this.bills.msg = 'No data';
+          } else {
+            _this.bills.array = data3.msg;
+            _this.bills.msg = '';
+          }
+        });
+        if (_this.committee.name) {
+          
+          $.getJSON(config.api.dev + 'v2/getlistcommitteevotes', {param: _this.committee.name}, function(data2, status2) {
+            if (data2.error) {
+              _this.committee.voters.array = [];
+              _this.committee.voters.msg = 'No data';
+            } else {
+              _this.committee.voters.array = data2.msg;
+              _this.committee.voters.msg = '';
+            }
+          });
+
+          $.getJSON(config.api.dev + 'v2/getlistcommitteebills', {param: _this.committee.name}, function(data4, status4) {
+            if (data4.error) {
+              _this.sBills.array = [];
+              _this.sBills.msg = 'No data';
+            } else {
+              _this.sBills.array = data4.msg;
+              _this.sBills.msg = '';
+            }
+          });
+
+        } else {
+          _this.committee.voters.array = [];
+          _this.committee.voters.msg = 'No data';
+          _this.sBills.array = [];
+          _this.sBills.msg = 'No data';
+        }
+      })
+    },
+
+  },
+  activated() {},
+  deactivated() {},
+  destroyed() {
+    // window.removeEventListener('scroll', this.handleScroll);
+  },
+  watch: {
+    $route(to, from) {
+      var _this = this;
+      this.address = this.$route.query.param;
+
+      if (
+        this.getaddressbalance.addr &&
+        from.meta == to.meta &&
+        this.getaddressbalance.addr != to.query.param
+      ) {
+        this.getInfo("getaddressbalance", { param: this.address });
+      }
+
+      if (
+        this.previousFullPath != from.fullPath &&
+        this.$route.query.from &&
+        this.getaddressbalance.addr == to.query.param
+      ) {
+        this.node.index = '0';
+        this.committee.index = '0';
+        this.bills.index = '0';
+        this.sBills.index = '0';
+        this.getDelegatesAndTxs({ param: this.address });
+        this.getCommitteeAndBills(this.address);
+      }
+      this.previousFullPath = from.fullPath;
+    }
   }
+};
 </script>

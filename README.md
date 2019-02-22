@@ -1,28 +1,18 @@
-# Lightning Bitcoin Explorer
-The official Lightning Bitcoin Explorer.
-You can access it from http://explorer.lbtc.io/ .
+# explorer-lbtc
+LBTC explorer.
 
-## Install & run
-
-If you want to run your own version, do this:
-
-### Install
+## Install
 ```bush
 // install dependencies
 npm install
 ```
-### Run
-#### - Development
+## Run
+### Development
 ```bush
 // For the first time, run init to create index.html
 npm run dev
 ```
-#### - Production(Build)
+### Production(Build)
 ```bush
 npm run build
-``` 
-
-
-## Contribution from outside
-Many thanks for your effort.
-- http://explorer.lbtc-pool.io/network (unofficial)
+```

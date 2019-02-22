@@ -1,7 +1,7 @@
 {
-  "name": "oxy-coin",
-  "version": "1.0.0",
-  "description": "A base project with Vue.js2、Vue-Router、webpack2 and with iView2.",
+  "name": "lbtc",
+  "version": "2.0.1",
+  "description": "Lightning Bitcoin blockChain.",
   "main": "index.js",
   "scripts": {
     "init": "webpack --progress --config webpack.dev.config.js",
@@ -10,16 +10,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iview/iview-project.git"
+    "url": "git+ "
   },
-  "author": "Aresn",
+  "analyze": "NODE_ENV=production npm_config_report=true npm run build",
+  "author": "",
   "license": "MIT",
   "dependencies": {
+    "accounting": "^0.4.1",
     "axios": "^0.17.1",
-    "iview": "^2.0.0-rc.8",
+    "calculatorjs": "^1.1.2",
+    "iview": "^2.13.0",
+    "js-cookie": "^2.2.0",
     "jsonp": "^0.2.1",
     "mathjs": "^3.20.1",
     "moment": "^2.20.1",
+    "qrcode.vue": "^1.6.0",
+    "vtip": "^1.0.6",
     "vue": "^2.5.9",
     "vue-router": "^2.2.1",
     "vuex": "^3.0.1"
@@ -49,6 +55,7 @@
     "vue-style-loader": "^1.0.0",
     "vue-template-compiler": "^2.5.9",
     "webpack": "^2.2.1",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-dev-server": "^2.4.1",
     "webpack-merge": "^3.0.0"
   },

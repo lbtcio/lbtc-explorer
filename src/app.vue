@@ -1,20 +1,28 @@
 <style scoped>
-
+    @media (max-width: 767px) {
+        .main {
+            margin-top: 50px;
+        }
+    }
+    @media (min-width: 768px) {
+        .main {
+            margin-top: 100px;
+        }
+    }
 </style>
 
 <template>
     <div>
         <header-nav></header-nav>
-        <!-- <keep-alive> -->
-            <router-view></router-view>
-        <!-- </keep-alive> -->
-        <footer-bottom></footer-bottom>
+        <router-view class="main"></router-view>
+        <!-- <footer-bottom></footer-bottom> -->
+        <BackTop></BackTop>
     </div>
 </template>
 <script>
 
     import HeaderNav from "./views/header-nav";
-    import FooterBottom from "./views/footer-bottom";
+    // import FooterBottom from "./views/footer-bottom";
 
     export default {
         data () {
@@ -22,7 +30,7 @@
         },
         components: {
             HeaderNav,
-            FooterBottom
+            // FooterBottom
         },
         computed: {
 

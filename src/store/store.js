@@ -14,8 +14,13 @@ const store = new Vuex.Store({
     screen: {
       screenWidth: document.body.clientWidth
     },
+    totallbtc: {
+      height: 0,
+      total: 0
+    },
     index: {
       flag : 1,
+      loading: true,
       LatestBlocks: [],
       LatestTransactions: []
     },
@@ -23,6 +28,7 @@ const store = new Vuex.Store({
     block: {
       blockinfo: {},
       blockTable: {},
+      loading: true,
       totalpage: 0
     },
     //blocks
@@ -31,18 +37,23 @@ const store = new Vuex.Store({
     address: {
       addrinfo: {},
       addrTable: [],
+      loading: true,
       totalpage: 0
     },
     //transction info
     transaction: {
       txinfo: {},
+      loading: true,
       total: {
         totalin : 0,
         totalout : 0
       }
     },
     //address1
-    getaddressbalance:{},
+    address1: {
+      getaddressbalance:{},
+      loading: true,
+    },
     //Voters
     voters:{},
     //Votes
@@ -79,6 +90,8 @@ const store = new Vuex.Store({
       // console.log(result)
       data.forEach(( item, index) => {
         item.result.time = moment(item.result.time*1000).format("YYYY-MM-DD HH:mm:ss");
+        item.result.txs = item.result.tx.length
+        // this.$set(item.result, 'txs', item.result.tx.length);
         result.push(item.result);
         if (item.result.tx) {
           item.result.tx.forEach(( item1, index) => {
@@ -93,6 +106,12 @@ const store = new Vuex.Store({
       // console.log(LatestTransactions);
       state.index.LatestBlocks = result;
       state.index.LatestTransactions = LatestTransactions;
+      state.index.loading = false
+    },
+
+    gettotallbtc(state, data) {
+      state.totallbtc.height = data.height;
+      state.totallbtc.total = data.total;
     },
 
     //blocks
@@ -109,21 +128,23 @@ const store = new Vuex.Store({
       result.time = moment(result.time*1000).format("YYYY-MM-DD HH:mm:ss");
       state.block.blockinfo = result
       state.block.blockTable = data[1]
-      state.block.totalpage = result.tx.length
+      state.block.totalpage = Math.ceil(result.tx.length/20)
+      state.block.loading = false
     },
 
     //transaction 数据
     gettransactionData(state, data) {
       var totalin = 0;
       var totalout = 0;
+      if (data.result.time) {
+        data.result.time = moment(data.result.time*1000).format("YYYY-MM-DD HH:mm:ss");
+      }
       data.result.vin.forEach((item, index) => {
-        // console.log(item.value)
         if (item.value) {
           totalin = totalin + item.value * 100000000;
         }
       });
       data.result.vout.forEach((item, index) => {
-        // console.log(item.value)
         if (item.value) {
           totalout = totalout + item.value * 100000000;
         }
@@ -131,6 +152,7 @@ const store = new Vuex.Store({
       state.transaction.txinfo = data.result
       state.transaction.total.totalin = totalin / 100000000;
       state.transaction.total.totalout = totalout / 100000000;
+      state.transaction.loading = false
     },
 
     //address 数据
@@ -138,11 +160,13 @@ const store = new Vuex.Store({
       state.address.addrinfo = data.addrinfo
       state.address.addrTable = data.addrTable
       state.address.totalpage = data.totalpage
+      state.address.loading = false
     },
 
     //addres simple 数据
-    getaddressbalance(state, data) {
-      state.getaddressbalance = data
+    getaddress1data(state, data) {
+      state.address1.getaddressbalance = data
+      state.address1.loading = false
     },
 
     //Voters

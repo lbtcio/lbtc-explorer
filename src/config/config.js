@@ -1,16 +1,15 @@
 import Env from './env';
+import Cookies from 'js-cookie';
+
+let api = Cookies.get('api') ? Cookies.get('api') : 'mainNetwork'
 
 let config = {
     env: Env,
     title: 'LBTC',
     api: {
-        // dev:'http://127.0.0.1:8080/',//..内网
-        // dev:'http://116.62.21.130:8080/',//..外网1
-        // dev:'http://47.97.101.32:8080/',//..外网2
-        // dev: 'http://116.62.21.130:8080/',
-        // dev:'http://47.52.253.229:8080/',
-        // dev:'http://47.91.223.81:8080/'
-        dev:'http://api.lbtc.io/'
+        dev: 'https://api.lbtc.io/',
+        // dev: 'http://api.test-explorer.lbtc.io:8080/',
+        // dev: 'http://47.75.59.162:8082/'
         //canoe ketchup rescue senior resource device flat piano village situate invite chest
         //monkey tuna wood bean animal write agent render raccoon fossil thunder illness
     },
