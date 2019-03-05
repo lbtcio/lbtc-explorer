@@ -8,14 +8,12 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyze
 
 fs.open('./src/config/env.js', 'w', function (err, fd) {
     const buf = 'export default "production";';
-    // fs.write(fd, buf, 0, buf.length, 0, function (err, written, buffer){});
     fs.write(fd, buf, 0, 'utf-8', function(err, written, buffer) {});
 });
 
 module.exports = merge(webpackBaseConfig, {
     output: {
-        publicPath: '/dist/',
-        // publicPath: '/',
+        publicPath: '/',
         filename: '[name].[hash].js',
         chunkFilename: '[name].[hash].chunk.js'
     },
