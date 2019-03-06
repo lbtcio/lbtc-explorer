@@ -1,18 +1,26 @@
 # explorer-lbtc
 LBTC explorer.
 
-## Install
+## To Use
+To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+
 ```bush
-// install dependencies
-npm install
+  # Clone Repository
+  git clone https://github.com/lbtcio/lbtc-explorer.git
+
+  # Go into the repository
+  cd lbtc-explorer
+
+  # Install dependencies
+  npm install
+
+  # Run
+  npm run dev
 ```
-## Run
-### Development
-```bush
-// For the first time, run init to create index.html
-npm run dev
-```
-### Production(Build)
+Visit localhost:8080 to view the explorer.
+
+## Production (Build)
 ```bush
 npm run build
 ```
+Finally, copy the files in the `dist` folder to your own server.
