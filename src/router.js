@@ -41,13 +41,13 @@ const routers = [
         },
         component: (resolve) => require(['./views/node-status.vue'], resolve)
     },
-    // {
-    //     path: '/richList',
-    //     meta: {
-    //         title: 'Delegate Monitor'
-    //     },
-    //     component: (resolve) => require(['./views/rich-list.vue'], resolve)
-    // },
+    {
+        path: '/richList',
+        meta: {
+            title: 'Delegate Monitor'
+        },
+        component: (resolve) => require(['./views/rich-list.vue'], resolve)
+    },
     {
         path: '/committee',
         meta: {

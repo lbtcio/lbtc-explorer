@@ -7,11 +7,8 @@ let config = {
     env: Env,
     title: 'LBTC',
     api: {
-        dev: 'https://api.lbtc.io/',
-        // dev: 'http://api.test-explorer.lbtc.io:8080/',
-        // dev: 'http://47.75.59.162:8082/'
-        //canoe ketchup rescue senior resource device flat piano village situate invite chest
-        //monkey tuna wood bean animal write agent render raccoon fossil thunder illness
+        dev: 'http://47.75.150.5:8822/'
+        // dev: 'https://api.lbtc.io/',
     },
     getStatus: (status) => {
         if (status != 200 ) {

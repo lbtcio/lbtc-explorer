@@ -2,7 +2,5 @@
 /dist
 /.vscode
 /src/config/env.js
-/old_dist
-/old_dist-new
-/package-lock.json
-/src/old page
+/old dist
+/old dist-t

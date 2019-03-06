@@ -19,7 +19,7 @@
     "accounting": "^0.4.1",
     "axios": "^0.17.1",
     "calculatorjs": "^1.1.2",
-    "iview": "^2.13.0",
+    "iview": "^3.1.5",
     "js-cookie": "^2.2.0",
     "jsonp": "^0.2.1",
     "mathjs": "^3.20.1",

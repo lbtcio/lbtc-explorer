@@ -33,7 +33,7 @@
         padding: 0;
         position: absolute;
         top: 0;
-        // width: 140px;
+        width: 135px;
         padding-top: 32px;
         li {
           padding: 2px 10px 4px;
@@ -54,9 +54,20 @@
         display: list-item;
         text-align: -webkit-match-parent;
       }
+      li.no-children a {
+        font-family: "Microsoft YaHei";
+        font-size: 15px;
+        padding: 5px 12px;
+        color: #fff;
+        cursor: pointer;
+        font-weight: 600;
+        &:hover {
+          color: #e8e8e8;
+        }
+      }
       li.with-children {
         border-radius: 2px 2px 0 0 !important;
-        // width: 140px;
+        width: 140px;
         padding: 5px 10px;
         position: relative;
         color: #fff;
@@ -71,23 +82,31 @@
         margin-right: 30px;
         opacity: 1 !important;
       }
+      //logo
       & > li:nth-of-type(1) {
         order: 1;
       }
+      //下拉1
       & > li:nth-of-type(2) {
         order: 2;
       }
-      & > li.flex-space {
-        flex-grow: 1;
-      }
+      // 下拉2
       & > li:nth-of-type(3) {
         order: 3;
       }
-      & > li:last-of-type {
-        margin-left: 25px;
+      //空位
+      & > li.flex-space {
+        flex-grow: 1;
       }
       & > li:nth-of-type(4) {
         order: 4;
+      }
+      //搜索框
+      & > li:last-of-type {
+        margin-left: 25px;
+      }
+      & > li:nth-of-type(5) {
+        order: 5;
       }
       .ivu-input {
         border: 1px solid #fff!important;
@@ -154,8 +173,9 @@
     }
     .navbar-collapse {
       overflow: hidden;
-      transition: all 0.2s ease-in-out;
+      transition: all 0.2s;
       height: 0;
+      
     }
   }
   .nav-trigger {
@@ -180,6 +200,16 @@
     list-style: none;
     margin-left: 15px;
     margin-right: 15px;
+    li.no-children {
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+       a {
+        color: #b2b2b2;
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
     li.with-children {
       transform: all 0.4s;
       color: #b2b2b2;
@@ -257,26 +287,19 @@
     transition: transform 0.2s 0.2s;
   }
 
-  .changeHeight {
-    height: 180px;
+  .changeHeight1 {
+    height: 210px;
   }
   .unexpanded .isExpanded {
-    height: 225px;
+    height: 275px;
   }
-
-  // .changeHeight {
-  //   height: 160px;
-  // }
-  // .unexpanded .isExpanded {
-  //   height: 195px;
-  // }
   
   </style>
 
 <template>
 
   <header>
-    <nav role="navigation" v-if="screenWidth >= 760" class="expanded" :class="{ changeHeight: changeHeight }">
+    <nav role="navigation" v-if="screenWidth >= 900" class="expanded" :class="{ changeHeight1: changeHeight1, changeHeight2: changeHeight2 }">
       <div class="container">
         <ul class="igation">
           <li>
@@ -285,19 +308,23 @@
             </a>
           </li>
           
-          <li class="with-children" @mouseover="overShow" @mouseout="outHide"> 
+          <li class="no-children"> 
+            <a target="_blank" href="http://47.96.169.139:9699/">Token</a>
+          </li>
+          
+          <li class="with-children" @mouseover="overShow1" @mouseout="outHide1"> 
             <span>Tools</span>
             <transition name="fade">
-              <ul v-if="changeHeight">
+              <ul v-if="changeHeight1">
                 <li>
                   <a href="/">Blocks</a>
                 </li>
                 <li>
                   <a href="/delegateMonitor">Delegates</a>
                 </li>
-                <!-- <li>
+                <li>
                   <a href="/richList">Rich List</a>
-                </li> -->
+                </li>
                 <li>
                   <a href="/committee">Committee</a>
                 </li>
@@ -320,7 +347,7 @@
       </div>
     </nav>
 
-    <nav class="unexpanded" v-if="screenWidth < 760">
+    <nav class="unexpanded" v-if="screenWidth < 900">
       <div class="navbar-header">
         <div class="container">
           <a class="nav-button" href="javascript:;" @click="navVisible()">
@@ -336,23 +363,26 @@
       <div class="navbar-collapse">
         <div class="container">
           <ul class="collapse">
+            <li class="no-children">
+              <a target="_blank" href="http://47.96.169.139:9699/">Token</a>
+            </li>
             <li class="with-children">
               Tool
               <ul class="children-ul">
                 <li>
-                  <a href="/">Blocks</a>
+                  <a href="/">Block</a>
                 </li>
                 <li>
-                  <a href="/delegateMonitor">Delegates</a>
+                  <a href="/delegateMonitor">Delegate</a>
                 </li>
-                <!-- <li>
+                <li>
                   <a href="/richList">Rich List</a>
-                </li> -->
-                <li>
-                  <a href="/committee">Committee</a>
                 </li>
                 <li>
-                  <a href="/bills">Proposals</a>
+                  <a href="/committee">committee</a>
+                </li>
+                <li>
+                  <a href="/bills">Bills</a>
                 </li>
               </ul>
             </li>
@@ -393,7 +423,8 @@
         clicktag: 0,
         searchLoading: false,
         enterStatus: false,
-        changeHeight: false
+        changeHeight1: false,
+        changeHeight2: false
       }
     },
     created() {
@@ -412,12 +443,20 @@
 
     },
     methods: {
-      overShow () {
-        this.changeHeight = true;
+      overShow1 () {
+        this.changeHeight1 = true;
       },
 
-      outHide () {
-        this.changeHeight = false;
+      outHide1 () {
+        this.changeHeight1 = false;
+      },
+
+      overShow2 () {
+        this.changeHeight2 = true;
+      },
+
+      outHide2 () {
+        this.changeHeight2 = false;
       },
 
       toolsOnchang(e) {

@@ -8,8 +8,8 @@
 			}
 		}
 		.list-item {
-			display: inline-block;
-			margin-right: 10px;
+			// display: inline-block;
+			// margin-right: 10px;
 		}
 		.list-enter-active {
 			transition: all 1s;
@@ -85,6 +85,10 @@
 			height: 30px;
 			margin: auto;
 		}
+		.super-node {
+			color: #ff9900;
+			font-weight:bold
+		}
 		.forging-total {
 			color: white;
 			padding: 1em;
@@ -100,7 +104,7 @@
 			.notforgedcontent {
 				position: absolute;
 				top: 110%;
-				right: -8%;
+				right: 0;
 				background: #1f2d3d;
 				border-color: #1f2d3d;
 				padding: 1rem;
@@ -171,7 +175,7 @@
 							<div class="table-container">
 								<tbody>
 									<tr v-for="item in notforgedarry">
-										<td style="text-align: right;padding-right: 10px;">{{ item.name }}</td>
+										<td style="text-align: right;padding-right: 10px;white-space: nowrap;">{{ item.name }}</td>
 										<td>{{ item.address }}</td>
 									</tr>
 								</tbody>
@@ -219,14 +223,13 @@
 								</div>
 							</th>
 							<th>Status</th>
-							
 						</tr>
 					</thead>
 					<tbody is="transition-group" name="list">
-						<tr v-for="item in listwitnesses" :key="item.address">
+						<tr v-for="item in listwitnesses" :key="JSON.stringify(item.address)" class="list-item">
 							<td>{{item.index ? item.index : "--"}}</td>
 							<td>
-								<router-link v-if="item.name != 'Empty Node'" :to="{path:'/addrinfo',query: {param: item.address}}" class="ellipsis">{{item.name}}</router-link>          									
+								<router-link v-if="item.name != 'Empty Node'" :to="{path:'/addrinfo',query: {param: item.address}}" class="ellipsis">{{item.name ? item.name : ''}}</router-link>         									
 								<span v-if="item.name == 'Empty Node'">{{item.name}}</span>
 							</td>
 							<td>
@@ -279,7 +282,7 @@
 				},
 				listwitnesses: [],
 				listwitnesses1: [],
-				forgedtotal: 101,
+				forgedtotal: 10,
 				// forgingtotal: 101,
 				notforgedtotal: 0,
 				notforgedarry: []
@@ -298,7 +301,7 @@
 
 			this.st = window.setInterval( () => {
 				this.getDelegatesData();
-			},3000)
+			},3000);
 
 			this.getDelegatesData();
 
@@ -313,7 +316,7 @@
 			handleFun() {
 				var _this = this;
 				window.addEventListener('scroll',function(){  
-					var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;//滚动高度
+					var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
 					var innerHeight = window.innerHeight;
 					var offsetHeight = document.body.offsetHeight;
 					var scrollHeight = document.documentElement.scrollHeight;
@@ -335,7 +338,7 @@
 			changeForgedTooltip(p1, p2, p3) {
 
 				var tooltip = '';
-				if (p3 > 101) {
+				if (p3 > 10) {
 					tooltip = 'Stop forging';
 				} else {
 					(p2 && String(p2) == '1') ? tooltip = 'Forging' :
@@ -349,22 +352,21 @@
 			changeForgedStyle( p1, p2, p3) {
 				let class1 = '';
 				let class2 = '';
-				( p2 && String(p2) == "1" ) ? class2 = 'bcolor-space' : class2 = '';
-				if (p3 && p3 > 101) {					
+				( p2 && p2 == 1) ? class2 = 'bcolor-space' : class2 = '';
+				if (p3 && p3 > 10) {					
 					class1 = 'bcolor-grey'
 					return class1 + " " + class2
 				} else {
-					p1 === '1' ? class1 ='bcolor-green' :					
+					p1 === '1' ? class1 ='bcolor-green' :				
 					p1 === '-1' ? class1 ='bcolor-red' :
 					p1 === '0' ? class1 ='bcolor-green' : class1 ='bcolor-red';
 					return class1 + " " + class2
 				}
-
 			},
- 
+
 			getDelegatesData () {
 				var _this = this;
-				$.getJSON( config.api.dev + 'v2/newgetnode', function(data,status) {
+				$.getJSON(config.api.dev + 'gettest', function(data,status) {
 					_this.notforgedtotal = 0;
 					_this.notforgedarry = [];
 
@@ -374,7 +376,7 @@
 						data.msg.forEach((item, index) => {
 							var notforgeddetails = {};
 							item.index = 1 + index;
-							if (item.status && item.status == '-1' && index < 101) {
+							if (item.status && item.status == '-1' && index < 100) {
 								_this.notforgedtotal = _this.notforgedtotal + 1;
 								notforgeddetails.name = item.name;
 								notforgeddetails.address = item.address;
@@ -395,7 +397,7 @@
 			insert_flg(num) {
 				var num = (num || 0).toString(), result = '';
 				while (num.length > 8) {
-						result = ',' + num.slice(-8) + result;
+						result = '.' + num.slice(-8) + result;
 						num = num.slice(0, num.length - 8);
 				}
 				if (num) { result = num + result; }

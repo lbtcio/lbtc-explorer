@@ -194,7 +194,7 @@
       let _this = this;
       if (this.$route.query.id) {
         let id = this.$route.query.id
-        $.getJSON(config.api.dev + 'v2/getbillsinfo', function(data,status) {
+        $.getJSON(config.api.dev + 'getbillsinfo', function(data,status) {
           if (data.error) {
             _this.loading = false;
             _this.errorMsg = 'No data';
@@ -216,6 +216,7 @@
                   _this.billinfo = data.msg[i];
                   _this.loading = false;
                   _this.errorMsg = '';
+                  break
                 }
               }
             }

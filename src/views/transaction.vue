@@ -25,7 +25,7 @@
         <h2>Summary</h2>
         <Row>
           <Col span="12" class="ellipsis">Time:</Col>
-          <Col span="12" style="text-align: right;" class="ellipsis">{{ txinfo.time ? txinfo.time : '' }}</Col>
+          <Col span="12" style="text-align: right;" class="ellipsis">{{ txinfo.time ? txinfo.time : 0 }}</Col>
         </Row>
         <Row class="backgroundColor">
           <Col span="12" class="ellipsis">Number of inputs:</Col>

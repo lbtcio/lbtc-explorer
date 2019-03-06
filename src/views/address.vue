@@ -68,7 +68,6 @@
     margin: 10px 0 20px 0;
   }
   .qrcode {
-    // max-width: 140px;
     max-height: 140px;
     margin-top: 20px;
     canvas {
@@ -79,6 +78,27 @@
   .name {
     font-size: 13px;
     margin-left:15px;
+  }
+  .flex {
+    display: flex;
+    .content {
+      flex: 1;
+    }
+    .expand {
+      width: 40px;
+      justify-content: space-around;
+      cursor: pointer;
+    }
+  }
+  .table-lock {
+    padding: 0 10px;
+    margin-top: 10px;
+    max-width: 650px;
+    font-size: 14px;
+    margin: 15px auto 0 auto;
+    tr {
+      height: 30px;
+    }
   }
 }
 </style>
@@ -100,12 +120,6 @@
             <Row>
               <p class="ellipsis" style="margin-top:15px" :title="getaddressbalance.result"><strong class="changeStrong">Balance: </strong><span>{{ getaddressbalance.result ? getaddressbalance.result / 100000000 : 0}}</span></p>
             </Row>
-            <!-- <Row v-if="showName">
-              <p class="ellipsis" style="margin-top:15px" :title="name"><strong class="changeStrong">Name: </strong><span>{{name}}</span></p>
-            </Row> -->
-            <!-- <Row v-if="showCount">
-              <p class="ellipsis" style="margin-top:15px" :title="name"><strong class="changeStrong">Votes: </strong><span>{{insert_flg(count)}}</span></p>
-            </Row> -->
           </Col>
           <Col :xs="24" :sm="24" :md="4" :lg="4" style="height:100%;text-align:center">
             <qrcode-vue :value="address" size="140" level="H" class="qrcode"></qrcode-vue>
@@ -154,8 +168,8 @@
               Votes
               <div slot="content" class="tag-container">
                 <div class="tag-block" v-for="(item, index) in committee.votes.array" v-if="committee.votes.array.length && index < 30">
-                  <span v-if="item.address == getaddressbalance.addr">{{item.name ? item.name : item.delegate}}</span>
-                  <router-link v-if="item.address != getaddressbalance.addr" :to="{path:'/addrinfo',query: {param: item.address}}" :key="item.address">{{item.name ? item.name : item.address}}</router-link>
+                  <span v-if="item.delegate == getaddressbalance.addr">{{item.name ? item.name : item.delegate}}</span>
+                  <router-link v-if="item.delegate != getaddressbalance.addr" :to="{path:'/addrinfo',query: {param: item.delegate}}" :key="item.address">{{item.name ? item.name : item.address}}</router-link>
                   <span class="point" v-if="index != (committee.votes.array.length - 1)">·</span>
                 </div>
                 <div v-if="!committee.votes.array.length" style="color:#ed3f14">
@@ -457,7 +471,7 @@ export default {
           }
         });
       });
-      $.getJSON(config.api.dev + "v2/gettxbyaddr", param, function(data, status) {
+      $.getJSON(config.api.dev + "gettxbyaddr", param, function(data, status) {
         if (data.error) {
           _this.txs = [];
           _this.txerrormsg = data.msg;
@@ -480,14 +494,14 @@ export default {
       // param address
       this.committee.name = '';
       var _this = this;
-      $.getJSON(config.api.dev + 'v2/getlistcommittees', function(data, status) {
+      $.getJSON(config.api.dev + 'getlistcommittees', function(data, status) {
         for (let m = 0; m < data.msg.length; m++) {
           if (addr == data.msg[m].address) {
             _this.committee.name = data.msg[m].name;
             break;
           }
         }
-        $.getJSON(config.api.dev + 'v2/getlistvotedcommittee', {param: addr}, function(data1, status1) {
+        $.getJSON(config.api.dev + 'getlistvotedcommittee', {param: addr}, function(data1, status1) {
           if (data1.error) {
             _this.committee.votes.array = [];
             _this.committee.votes.msg = 'No data';
@@ -496,7 +510,7 @@ export default {
             _this.committee.votes.msg = '';
           }
         });
-        $.getJSON(config.api.dev + 'v2/voterbillsbyaddr', {param: addr}, function(data3, status3) {
+        $.getJSON(config.api.dev + 'voterbillsbyaddr', {param: addr}, function(data3, status3) {
           if (data3.error) {
             _this.bills.array = [];
             _this.bills.msg = 'No data';
@@ -507,7 +521,7 @@ export default {
         });
         if (_this.committee.name) {
           
-          $.getJSON(config.api.dev + 'v2/getlistcommitteevotes', {param: _this.committee.name}, function(data2, status2) {
+          $.getJSON(config.api.dev + 'getlistcommitteevotes', {param: _this.committee.name}, function(data2, status2) {
             if (data2.error) {
               _this.committee.voters.array = [];
               _this.committee.voters.msg = 'No data';
@@ -517,7 +531,7 @@ export default {
             }
           });
 
-          $.getJSON(config.api.dev + 'v2/getlistcommitteebills', {param: _this.committee.name}, function(data4, status4) {
+          $.getJSON(config.api.dev + 'getlistcommitteebills', {param: _this.committee.name}, function(data4, status4) {
             if (data4.error) {
               _this.sBills.array = [];
               _this.sBills.msg = 'No data';

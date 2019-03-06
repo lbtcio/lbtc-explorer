@@ -73,10 +73,10 @@
 						<tr v-for="item in caseList" :key="item.id" class="list-item">
 							<td>{{item.index}}</td>
 							<td class="ellipsis" style="max-width: 350px;">
-								<router-link :to="{path:'/billinfo',query: {id: item.id}}" class="ellipsis">{{item.id}}</router-link>
+								<router-link :to="{path:'/billinfo',query: {id: item.id}}" class="ellipsis">{{item.id}}</router-link>         									
 							</td>
 							<td class="ellipsis" style="max-width: 240px;">
-								<router-link :to="{path:'/billinfo',query: {id: item.id}}" class="ellipsis">{{item.title}}</router-link>
+								<router-link :to="{path:'/billinfo',query: {id: item.id}}" class="ellipsis">{{item.title}}</router-link>          									
 							</td>
 							<td>
 								{{item.starttime | timeFormat}}
@@ -161,7 +161,7 @@
 			handleFun() {
 				var _this = this;
 				window.addEventListener('scroll',function(){  
-					var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;//滚动高度
+					var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
 					var innerHeight = window.innerHeight;
 					var offsetHeight = document.body.offsetHeight;
 					var scrollHeight = document.documentElement.scrollHeight;
@@ -183,7 +183,7 @@
 			getCaseList () {
 
 				var _this = this;
-				$.getJSON(config.api.dev + 'v2/getbillsinfo', function(data,status) {
+				$.getJSON(config.api.dev + 'getbillsinfo', function(data,status) {
 
 					if (data.error) {
 						_this.caseList1 = [];

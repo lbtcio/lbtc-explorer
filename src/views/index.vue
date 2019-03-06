@@ -16,13 +16,7 @@
 
 			<div class="container" v-if="!loading">
 
-					<div class="info">
-						<h2 class="pt25">Circulation</h2>
-						<p><strong>Height: </strong>{{height}}</p>
-						<p style="background-color: #fff;"><strong>Total: </strong>{{total}}</p>
-					</div>
-
-					<h2 style="margin-top: 50px;">Latest Blocks<p></p></h2>
+					<h2 class="pt25">Latest Blocks<p></p></h2>
 					<div class="table-container">
 						<table class="myTable" border="0" cellpadding="10" cellspacing="0" width="100%" style="overflow:auto">
 							<thead>
@@ -99,12 +93,6 @@
 			Message() {
 				return this.$store.state.error.Message
 			},
-			height() {
-				return this.$store.state.totallbtc.height
-			},
-			total() {
-				return this.$store.state.totallbtc.total
-			},
 			LatestTransactions() {
 				return this.$store.state.index.LatestTransactions
 			},
@@ -117,9 +105,9 @@
 			return{
 				searchText: '',
 				searchLoading: false,
-				enterStatus: false,
-				timerIndex: '',
-				timerHeight: ''
+        enterStatus: false,
+				st: '',
+				
 			}
 		},
 		filters: {
@@ -129,15 +117,7 @@
 		},
 		created() {
 			this.getIndexData();
-			this.getTotallbtc();
-
-			this.timerIndex = window.setInterval( () => {
-				this.getIndexData();
-			},15000)
-
-			this.timerHeight = window.setInterval( () => {
-				this.getTotallbtc();
-			},3000)
+			this.t();
 	
 		},
 		
@@ -153,12 +133,18 @@
 		beforeDestroy () {
 		},
 		destroyed () {
-			window.clearInterval(this.timerIndex);
-			window.clearInterval(this.timerHeight);
+			window.clearInterval(this.st);
 		},
 		methods: {
 
+			t () {
+				this.st = window.setInterval( () => {
+					this.getIndexData();
+				},15000)
+			},
+
 			getIndexData () {
+
 				let _this = this;
 				let _$store = this.$store
 				$.getJSON(config.api.dev + 'index3',function(data,status){
@@ -170,16 +156,6 @@
 					}
 				});
 			},
-
-			getTotallbtc () {
-				let _this = this;
-				let _$store = this.$store
-				$.getJSON('https://api.lbtc.io/v2/totallbtc',function(data,status){
-					if (!data.error) {
-						_$store.commit('gettotallbtc', { height: data.blockcount , total: data.total});
-					}
-				});
-			}
 
 
 		},

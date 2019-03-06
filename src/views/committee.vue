@@ -209,10 +209,10 @@
 			handleFun() {
 				var _this = this;
 				window.addEventListener('scroll',function(){  
-					var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;//滚动高度
+					var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
 					var innerHeight = window.innerHeight;
 					var offsetHeight = document.body.offsetHeight;
-					var scrollHeight = document.documentElement.scrollHeight;  
+					var scrollHeight = document.documentElement.scrollHeight;
 					if( innerHeight + scrollTop >= (offsetHeight - 30 )) {
 						if(_this.sw==true){
 							_this.sw = false;
@@ -231,7 +231,7 @@
 			getlistcommittee () {
 
 				var _this = this;
-				$.getJSON(config.api.dev + 'v2/getlistcommittees', function(data,status) {
+				$.getJSON(config.api.dev + 'getlistcommittees', function(data,status) {
 
 					if (data.error) {
 						_this.committee1 = [];

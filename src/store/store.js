@@ -14,10 +14,6 @@ const store = new Vuex.Store({
     screen: {
       screenWidth: document.body.clientWidth
     },
-    totallbtc: {
-      height: 0,
-      total: 0
-    },
     index: {
       flag : 1,
       loading: true,
@@ -67,25 +63,31 @@ const store = new Vuex.Store({
 
   },
 	mutations: {
+    //错误信息
     errorMessage(state, data) {
       state.error.errorShow = data.status;
       state.error.Message = data.msg;
     },
 
+    //例子 计数
     addCount(state, data) {
 			state.index.flag = data + 1
     },
 
+    //屏幕大小
     screenSize(state, data) {
       state.screen.screenWidth = data;
     },
 
+    //index 数据
     getindexData(state, data) {
       var LatestTransactions = [];
       var result = [];
+      // console.log(result)
       data.forEach(( item, index) => {
         item.result.time = moment(item.result.time*1000).format("YYYY-MM-DD HH:mm:ss");
         item.result.txs = item.result.tx.length
+        // this.$set(item.result, 'txs', item.result.tx.length);
         result.push(item.result);
         if (item.result.tx) {
           item.result.tx.forEach(( item1, index) => {
@@ -96,14 +98,11 @@ const store = new Vuex.Store({
           });
         };
       });
+      // console.log(result);
+      // console.log(LatestTransactions);
       state.index.LatestBlocks = result;
       state.index.LatestTransactions = LatestTransactions;
       state.index.loading = false
-    },
-
-    gettotallbtc(state, data) {
-      state.totallbtc.height = data.height;
-      state.totallbtc.total = data.total;
     },
 
     //blocks
@@ -128,9 +127,7 @@ const store = new Vuex.Store({
     gettransactionData(state, data) {
       var totalin = 0;
       var totalout = 0;
-      if (data.result.time) {
-        data.result.time = moment(data.result.time*1000).format("YYYY-MM-DD HH:mm:ss");
-      }
+      data.result.time = moment(data.result.time*1000).format("YYYY-MM-DD HH:mm:ss");
       data.result.vin.forEach((item, index) => {
         if (item.value) {
           totalin = totalin + item.value * 100000000;
