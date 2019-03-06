@@ -1,24 +1,24 @@
 import Vue from 'vue';
-import iView from 'iview';
+import App from './app.vue';
 import VueRouter from 'vue-router';
 import Routers from './router';
-import Util from './libs/util';
-import App from './app.vue';
-import 'iview/dist/styles/iview.css';
 import store from './store/store';
-import './my-theme/index.less';
+import Util from './libs/util';
 import $ from 'jquery';
-import accounting from 'accounting';
+import iView from 'iview';
+import 'iview/dist/styles/iview.css';
+
 import Vtip from 'vtip';
 import 'vtip/lib/index.min.css';
+import accounting from 'accounting';
 import moment from "moment";
 
+import './my-theme/index.less';
 
 Vue.use(VueRouter);
 Vue.use(iView);
 Vue.use(Vtip.directive)
 
-// 路由配置
 const RouterConfig = {
     mode: 'history',
     routes: Routers,
@@ -46,28 +46,33 @@ new Vue({
 
 $.ajaxSetup({
     timeout: 60000,
-    //完成请求后触发。即在success或error触发后触发  
-    complete: function (XMLHttpRequest, status) { 
-        // console.log(XMLHttpRequest);
+    complete: function (XMLHttpRequest, status) {
         iView.LoadingBar.finish();
-    },  
-　　//发送请求前触发  
-　　beforeSend: function (XMLHttpRequest) {
-        // console.log(XMLHttpRequest);
+    },
+    beforeSend: function (XMLHttpRequest) {
         iView.LoadingBar.start();
     },
     error: function (XMLHttpRequest, status, e) {
         if (XMLHttpRequest.status > 500) {
-            // this.$store.commit('errorMessage', { status: true , msg: data.msg});
-            // setTimeout(() =>this.$store.commit('errorMessage', { status: false , msg: ''}),3000);
+            store.commit('errorMessage', {
+                status: true,
+                msg: 'Server Error...'
+            });
+            setTimeout(() => store.commit('errorMessage', {
+                status: false,
+                msg: ''
+            }), 3000);
         }
         if (status == "timeout") {
-            // this.$store.commit('errorMessage', { status: true , msg: data.msg});
-            // setTimeout(() =>this.$store.commit('errorMessage', { status: false , msg: ''}),3000);
+            store.commit('errorMessage', {
+                status: true,
+                msg: 'Timeout...'
+            });
+            setTimeout(() => store.commit('errorMessage', {
+                status: false,
+                msg: ''
+            }), 3000);
         }
-        // console.log(XMLHttpRequest);
-        // console.log(status);
-        // console.log(e);
         return false;
     }
 });
@@ -80,4 +85,6 @@ Vue.filter("currency", function (value) {
 Vue.filter("Number", function (value) {
     return Vue.prototype.$accounting.formatNumber(value, 0, ",", ".")
 })
-Vue.filter("timeFormat", function(value) { return moment(value * 1000).format("YYYY-MM-DD HH:mm:ss") }) 
+Vue.filter("timeFormat", function (value) {
+    return moment(value * 1000).format("YYYY-MM-DD HH:mm:ss")
+})

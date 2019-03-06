@@ -194,7 +194,6 @@
       let _this = this;
       if (this.$route.query.id) {
         let id = this.$route.query.id
-        console.log(id)
         $.getJSON(config.api.dev + 'v2/getbillsinfo', function(data,status) {
           if (data.error) {
             _this.loading = false;

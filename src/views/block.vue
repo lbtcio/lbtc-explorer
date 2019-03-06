@@ -280,10 +280,7 @@
     },
     watch: {
       '$route' (to, from) {
-        // console.log(to.query.param.length == 64 )
-
         if (this.blockinfo.height && from.meta == to.meta && this.blockinfo.height != to.query.param) {
-          // console.log('back……');
           if ( to.query.param.length == 64 ) {
             this.getBlockInfo('getblockbyhash', { 'param': to.query.param });
           } else {

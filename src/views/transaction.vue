@@ -224,7 +224,6 @@
     watch: {
       '$route' (to, from) {
         if (this.txinfo.txid && from.meta == to.meta && this.txinfo.txid != to.query.param) {
-          // console.log('back……');
           this.getTransactionData('gettxinfo', {'param': to.query.param});
         }
       }
