@@ -34,6 +34,7 @@
     "vuex": "^3.0.1"
   },
   
+  
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
     "babel": "^6.23.0",
@@ -64,9 +65,11 @@
     "webpack-merge": "^3.0.0"
   },
   
+  
   "bugs": {
     "url": "https://github.com/iview/iview-project/issues"
   },
+  
   
   "homepage": "https://www.iviewui.com"
   
