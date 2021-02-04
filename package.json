@@ -1,5 +1,6 @@
 {
   
+  
   "name": "lbtc",
   "version": "2.0.1",
   "description": "Lightning Bitcoin blockChain.",
@@ -10,10 +11,12 @@
     "build": "webpack --progress --hide-modules --config webpack.prod.config.js"
   },
   
+  
   "repository": {
     "type": "git",
     "url": "git+ "
   },
+  
   
   "analyze": "NODE_ENV=production npm_config_report=true npm run build",
   "author": "",
@@ -33,6 +36,7 @@
     "vue-router": "^2.2.1",
     "vuex": "^3.0.1"
   },
+  
   
   
   "devDependencies": {
@@ -66,11 +70,14 @@
   },
   
   
+  
   "bugs": {
     "url": "https://github.com/iview/iview-project/issues"
   },
   
   
+  
   "homepage": "https://www.iviewui.com"
+  
   
 }
