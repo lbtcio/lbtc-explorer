@@ -10,7 +10,6 @@
     "build": "webpack --progress --hide-modules --config webpack.prod.config.js"
   },
   
-  
   "repository": {
     "type": "git",
     "url": "git+ "
